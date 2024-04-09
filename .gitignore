@@ -1,0 +1,61 @@
+# IntelliJ IDEA
+.idea/
+
+# Arquivos de configuração do IntelliJ
+*.iml
+*.ipr
+*.iws
+.idea/workspace.xml
+.idea/tasks.xml
+.idea/dictionaries/
+
+# Diretório de saída do compilador
+out/
+
+# Diretório de artefatos de compilação
+target/
+*.jar
+
+# Logs
+*.log
+
+# Arquivos de configuração do Maven
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+pom.xml.releaseBackup
+pom.xml.backup
+/maven-archiver/
+*.pom
+*.zip
+*.tar.gz
+/target/
+
+# Dependências
+dependency-reduced-pom.xml
+dependency-reduced-pom.properties
+.settings.xml
+
+# Logs de construção
+build.log
+
+# Arquivos de configuração do Gradle
+.gradle/
+build/
+
+# Arquivos de configuração do Eclipse
+.classpath
+.project
+.settings/
+
+# Arquivos de configuração do NetBeans
+nb-configuration.xml
+
+# Arquivos de configuração do VS Code
+.vscode/
+
+# Diretório do sistema
+.DS_Store
+Thumbs.db
