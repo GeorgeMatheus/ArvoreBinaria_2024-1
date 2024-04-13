@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package lib;
 
 /**
@@ -10,18 +5,18 @@ package lib;
  * @author victoriocarvalho
  */
 public class No<T> {
-    
+
     private T valor;
     private No<T> filhoDireita;
     private No<T> filhoEsquerda;
 
-    
+
     public No(T valor){
         this.valor = valor;
         this.filhoDireita = null;
         this.filhoEsquerda = null;
     }
-    
+
     /**
      * @return the valor
      */
@@ -63,6 +58,35 @@ public class No<T> {
     public void setFilhoEsquerda(No<T> filhoEsquerda) {
         this.filhoEsquerda = filhoEsquerda;
     }
-    
-    
+
+
+    public int altura() {
+        return obterAltura(this);
+    }
+
+    private int obterAltura(No<T> no){
+        // se o nó for nulo a altura é 0
+        if (no == null){
+            return -1;
+        }
+
+        //recursivamente calcula a altura da subarvore esquerda
+        int altE = obterAltura(no.getFilhoEsquerda());
+        //recursivamente calcula a altura da subarvore direita
+        int altD = obterAltura(no.getFilhoDireita());
+
+        if (altE > altD){
+            return altE + 1;
+        }else {
+            return altD + 1;
+        }
+
+        //   return Math.max(altE, altD) + 1;
+
+    }
+
+    public int fatorBalanceamento(){
+        return obterAltura(this.getFilhoDireita()) - obterAltura(this.getFilhoEsquerda());
+    }
+
 }
