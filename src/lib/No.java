@@ -1,96 +1,89 @@
 package lib;
 
 /**
- * Classe que representa um nó em uma árvore binária.
  *
- * @param <T> Tipo genérico do valor armazenado no nó.
+ * @author victoriocarvalho
  */
+
+ /*
+  * Classe que representa o no da arvore binaria
+  */
 public class No<T> {
 
-    // Valor armazenado no nó
-    private T valor;
-    // Referência para o filho direita do nó
-    private No<T> filhoDireita;
-    // Referência para o filho esquerda do nó
-    private No<T> filhoEsquerda;
+    private T valor; // Valor que esta armazenado no No
+    private No<T> filhoDireita; // Referencia para o filho direito
+    private No<T> filhoEsquerda; // Referencia para o filho esquerdo
 
-    // Construtor que inicializa o nó com um valor
+    // Construtor da classe No
     public No(T valor){
         this.valor = valor;
         this.filhoDireita = null;
         this.filhoEsquerda = null;
     }
 
-    /**
-     * @return O valor armazenado no nó.
-     */
+    // Getter para obter o valor do No
     public T getValor() {
         return valor;
     }
 
-    /**
-     * @param valor O valor a ser atribuído ao nó.
-     */
+    // Setter para definir o valor do no
     public void setValor(T valor) {
         this.valor = valor;
     }
 
-    /**
-     * @return O filho à direita do nó.
-     */
+    // Getter para obter o filho direito do no
     public No<T> getFilhoDireita() {
         return filhoDireita;
     }
 
-    /**
-     * @param filhoDireita O nó a ser atribuído como filho direita.
-     */
+    // Setter para definir o filho direito do no
     public void setFilhoDireita(No<T> filhoDireita) {
         this.filhoDireita = filhoDireita;
     }
 
-    /**
-     * @return O filho à esquerda do nó.
-     */
+   // Getter para obter o filho esquerdo do no
     public No<T> getFilhoEsquerda() {
         return filhoEsquerda;
     }
 
-    /**
-     * @param filhoEsquerda O nó a ser atribuído como filho esquerda.
-     */
+    // Setter para definir o filho esquerdo do no
     public void setFilhoEsquerda(No<T> filhoEsquerda) {
         this.filhoEsquerda = filhoEsquerda;
     }
 
-    /**
-     * Método para calcular a altura do nó na árvore.
-     *
-     * @return A altura do nó.
-     */
+    // Metodo para calcular a altura do no
     public int altura() {
         return obterAltura(this);
     }
 
-    // Método auxiliar para calcular a altura de um nó recursivamente
+    // Método privado auxiliar para calcular a altura de um no
     private int obterAltura(No<T> no){
+        // Se o no for nulo a altura eh 0
         if (no == null){
-            return -1; // Se o nó for nulo, a altura é -1
+            return -1;
         }
 
-        int altE = obterAltura(no.getFilhoEsquerda()); // Altura da subárvore esquerda
-        int altD = obterAltura(no.getFilhoDireita());  // Altura da subárvore direita
+        // Recursivamente calcula a altura da subarvore esquerda
+        int altE = obterAltura(no.getFilhoEsquerda());
 
-        // Retorna a altura máxima entre as subárvores mais a altura do próprio nó
-        return Math.max(altE, altD) + 1;
+        // Recursivamente calcula a altura da subarvore direita
+        int altD = obterAltura(no.getFilhoDireita());
+
+        // Retorna a altura maxima entre as subarvores + 1
+        if (altE > altD){
+            return altE + 1;
+        }else {
+            return altD + 1;
+        }
+
+        //return Math.max(altE, altD) + 1;
+
     }
 
-    /**
-     * Método para calcular o fator de balanceamento do nó.
-     *
-     * @return O fator de balanceamento do nó.
-     */
+    // Metodo para calcular o fator de balanceamento do no
     public int fatorBalanceamento(){
+        //Retorna a diferenca entre as alturas das subarvores direita e esquerda
         return obterAltura(this.getFilhoDireita()) - obterAltura(this.getFilhoEsquerda());
     }
+
 }
