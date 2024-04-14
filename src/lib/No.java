@@ -4,77 +4,72 @@ package lib;
  *
  * @author victoriocarvalho
  */
+
+ /*
+  * Classe que representa o no da arvore binaria
+  */
 public class No<T> {
 
-    private T valor;
-    private No<T> filhoDireita;
-    private No<T> filhoEsquerda;
+    private T valor; // Valor que esta armazenado no No
+    private No<T> filhoDireita; // Referencia para o filho direito
+    private No<T> filhoEsquerda; // Referencia para o filho esquerdo
 
-
+    // Construtor da classe No
     public No(T valor){
         this.valor = valor;
         this.filhoDireita = null;
         this.filhoEsquerda = null;
     }
 
-    /**
-     * @return the valor
-     */
+    // Getter para obter o valor do No
     public T getValor() {
         return valor;
     }
 
-    /**
-     * @param valor the valor to set
-     */
+    // Setter para definir o valor do no
     public void setValor(T valor) {
         this.valor = valor;
     }
 
-    /**
-     * @return the filhoDireita
-     */
+    // Getter para obter o filho direito do no
     public No<T> getFilhoDireita() {
         return filhoDireita;
     }
 
-    /**
-     * @param filhoDireita the filhoDireita to set
-     */
+    // Setter para definir o filho direito do no
     public void setFilhoDireita(No<T> filhoDireita) {
         this.filhoDireita = filhoDireita;
     }
 
-    /**
-     * @return the filhoEsquerda
-     */
+   // Getter para obter o filho esquerdo do no
     public No<T> getFilhoEsquerda() {
         return filhoEsquerda;
     }
 
-    /**
-     * @param filhoEsquerda the filhoEsquerda to set
-     */
+    // Setter para definir o filho esquerdo do no
     public void setFilhoEsquerda(No<T> filhoEsquerda) {
         this.filhoEsquerda = filhoEsquerda;
     }
 
-
+    // Metodo para calcular a altura do no
     public int altura() {
         return obterAltura(this);
     }
 
+    // Método privado auxiliar para calcular a altura de um no
     private int obterAltura(No<T> no){
-        // se o nó for nulo a altura é 0
+        // Se o no for nulo a altura eh 0
         if (no == null){
             return -1;
         }
 
-        //recursivamente calcula a altura da subarvore esquerda
+        // Recursivamente calcula a altura da subarvore esquerda
         int altE = obterAltura(no.getFilhoEsquerda());
-        //recursivamente calcula a altura da subarvore direita
+
+        // Recursivamente calcula a altura da subarvore direita
         int altD = obterAltura(no.getFilhoDireita());
 
+        // Retorna a altura maxima entre as subarvores + 1
         if (altE > altD){
             return altE + 1;
         }else {
@@ -85,7 +80,9 @@ public class No<T> {
 
     }
 
+    // Metodo para calcular o fator de balanceamento do no
     public int fatorBalanceamento(){
+        //Retorna a diferenca entre as alturas das subarvores direita e esquerda
         return obterAltura(this.getFilhoDireita()) - obterAltura(this.getFilhoEsquerda());
     }
 
