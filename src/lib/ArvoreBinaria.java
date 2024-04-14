@@ -60,9 +60,33 @@ public class ArvoreBinaria<T> implements IArvoreBinaria<T> {
 
     @Override
     public T pesquisar(T valor, Comparator comparador) {
-        throw new UnsupportedOperationException("Not supported yet."); // To change body of generated methods, choose
-        // Tools | Templates.
+        // Chamando o método recursivo
+        return pesquisarRec(raiz, valor, comparador);
     }
+
+    // Método recursivo para pesquisar o valor na árvore
+        private T pesquisarRec(No<T> r, T valor, Comparator comp ) {
+            if( r == null) {
+                return null; // / Retorna o valor encontrado na árvore
+            }
+            if(comp.compare(valor, r.getValor()) == 0) {
+                return r.getValor(); //Retorna o valor encontrado na árvore
+            }
+            else {
+                T rd = pesquisarRec(r.getFilhoDireita(), valor, comp);
+                T re = pesquisarRec(r.getFilhoEsquerda(), valor, comp);
+
+                // Verificando se o valor foi encontrado em alguma das sub-árvores
+                if( rd != null){
+                    return rd;
+                }
+                else if( re != null){
+                    return re;
+                }
+                else return null;
+            }
+        }
+
 
     // Método para pesquisar um valor na árvore
     @Override
