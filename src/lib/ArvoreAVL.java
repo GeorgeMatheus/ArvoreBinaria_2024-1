@@ -86,4 +86,37 @@ public class ArvoreAVL<T> extends ArvoreBinaria<T> {
         }
         return altura(no.getFilhoDireita()) - altura(no.getFilhoEsquerda());
     }
+
+    private No<T> rotacaoEsquerda(No<T> r) {
+        No<T> f = r.getFilhoDireita();
+        r.setFilhoDireita(f.getFilhoEsquerda());
+        f.setFilhoEsquerda(r);
+        return f;
+    }
+
+    private No<T> rotacaoDireita(No<T> r) {
+        No<T> f = r.getFilhoEsquerda();
+        r.setFilhoEsquerda(f.getFilhoDireita());
+        f.setFilhoDireita(r);
+        return f;
+    }
+
+    private No<T> encontrarSucessor(No<T> no) {
+        while (no.getFilhoEsquerda() != null) {
+            no = no.getFilhoEsquerda();
+        }
+        return no;
+    }
+
+    @Override
+    public int altura() {
+        return altura(raiz);
+    }
+
+    private int altura(No<T> no) {
+        if (no == null) {
+            return 0;
+        }
+        return 1 + Math.max(altura(no.getFilhoEsquerda()), altura(no.getFilhoDireita()));
+    }
 }
