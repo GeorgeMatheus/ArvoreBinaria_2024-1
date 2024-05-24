@@ -9,25 +9,24 @@ public class ArvoreAVL<T> extends ArvoreBinaria<T> {
     }
 
     @Override
-    public void adicionar(T novoValor) {
-        raiz = adicionar(raiz, novoValor);
-    }
+    protected No<T> addRecursao(No<T> raiz, No<T> novo){
+        raiz = super.addRecursao(raiz, novo);
 
-    private No<T> adicionar(No<T> raiz, T novoValor) {
-        if (raiz == null) {
-            return new No<>(novoValor);
+        if(raiz.fatorBalanceamento() > 1){
+            if(raiz.getFilhoDireita().fatorBalanceamento() > 0){
+                raiz = this.rotacaoEsquerda(raiz);
+            } else {
+                raiz = this.rotacaoEsquerda(raiz);
+            }
+        } else if (raiz.fatorBalanceamento() < -1){
+            if(raiz.getFilhoEsquerda().fatorBalanceamento() < 0){
+                raiz = this.rotacaoDireita(raiz);
+            } else {
+                raiz = this.rotacaoDireita(raiz);
+            }
         }
 
-        int comp = comparador.compare(novoValor, raiz.getValor());
-        if (comp < 0) {
-            raiz.setFilhoEsquerda(adicionar(raiz.getFilhoEsquerda(), novoValor));
-        } else if (comp > 0) {
-            raiz.setFilhoDireita(adicionar(raiz.getFilhoDireita(), novoValor));
-        } else {
-            return raiz; // Valor duplicado, não adiciona
-        }
-
-        return balancear(raiz);
+        return raiz;
     }
 
     @Override

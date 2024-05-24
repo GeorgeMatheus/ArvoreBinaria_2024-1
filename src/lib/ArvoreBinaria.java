@@ -26,36 +26,28 @@ public class ArvoreBinaria<T> implements IArvoreBinaria<T> {
             // Se estiver vazia ele vai define o novo nó como raiz
             this.raiz = novoNo;
         }else {
-            // se não tiver vazia ele começa a buscar
-            No<T> atual = raiz;
-            // Entra em loop até encontrar o local correto
-            while (true){
-                // compara o novo valor com o valor do nó atual
-                int comp = comparador.compare(novoValor, atual.getValor());
-                // compara se o valor do no é menor que o valor do no atual
-                if (comp < 0){
-                    // verifica se o filho esquerdo do no atual é nulo
-                    if (atual.getFilhoEsquerda() == null){
-                        //se for ele define o novo no como o filho a esquerda
-                        atual.setFilhoEsquerda(novoNo);
-                    }
-                    //move para o nó do filho esquerdo e continua a busca
-                    atual = atual.getFilhoEsquerda();
-                    // compara se o valor do no é maior que o valor do no atual
-                } else if (comp > 0) {
-                    //verifica se o filho a direita é nulo
-                    if (atual.getFilhoDireita()== null){
-                        ////se for ele define o novo no como o filho a direita
-                        atual.setFilhoDireita(novoNo);
-                    }
-                    //move para o nó do filho a direita e continua a busca
-                    atual = atual.getFilhoDireita();
-                    // Se o novo valor for igual ao valor do no atual ele não faz nada
-                }else {
-                    return;
-                }
+            this.raiz = addRecursao(this.raiz, novoNo);
+        }
+    }
+    protected No<T> addRecursao(No<T> atual, No<T> novo){
+        //Se o novo elemento for menor do que o atual vou para a esquerda
+        int comp = this.comparador.compare(novo.getValor(), atual.getValor());
+
+        if(comp < 0){
+            if(atual.getFilhoEsquerda() == null){
+                atual.setFilhoEsquerda(novo);
+            }else{
+                atual.setFilhoEsquerda(addRecursao(atual.getFilhoEsquerda(), novo));
+            }
+        }else {
+            if(atual.getFilhoDireita() == null) {
+                atual.setFilhoDireita(novo);
+            }else {
+                atual.setFilhoDireita(addRecursao(atual.getFilhoDireita(), novo));
             }
         }
+
+        return atual;
     }
 
     @Override
