@@ -2,28 +2,46 @@ package lib;
 
 import java.util.Comparator;
 
+/* Esta classe implementa uma árvore binária balanceada (AVL)
+   onde a diferença em altura entre as subárvores esquerda e direita
+    de cada nó é no máximo um (positivo ou negativo)
+  */
 public class ArvoreAVL<T> extends ArvoreBinaria<T> {
-
+    /* Construtor que inicializa a árvore com o comparador especificado,
+    ou seja, o comparador é usado para comparar elementos na árvore */
     public ArvoreAVL(Comparator<T> comparator) {
         super(comparator);
     }
 
+    // Método recursivo para adicionar um novo nó na árvore
     @Override
     protected No<T> addRecursao(No<T> raiz, No<T> novo){
+        // Chama o método de adição da classe pai
         raiz = super.addRecursao(raiz, novo);
 
-        if(raiz.fatorBalanceamento() > 1){
-            if(raiz.getFilhoDireita().fatorBalanceamento() > 0){
-                raiz = this.rotacaoEsquerda(raiz);
-            } else {
-                raiz = this.rotacaoEsquerda(raiz);
+        /*Verifica o fator de balanceamento e caso seja necessário
+        realiza rotações para o balancear a árvore
+        */
+
+        //Verifica do fator de balanceamento maior que 1
+        if (raiz.fatorBalanceamento() > 1) {
+            //Fator de balanceamento negativo do filho a direita
+            if (raiz.getFilhoDireita().fatorBalanceamento() < 0) {
+                // Rotação dupla direita-esquerda
+                // Faço uma rotação a direita no filho a direita
+                raiz.setFilhoDireita(rotacaoDireita(raiz.getFilhoDireita()));
             }
-        } else if (raiz.fatorBalanceamento() < -1){
-            if(raiz.getFilhoEsquerda().fatorBalanceamento() < 0){
-                raiz = this.rotacaoDireita(raiz);
-            } else {
-                raiz = this.rotacaoDireita(raiz);
+            // Rotação simples à esquerda na raiz
+            raiz = rotacaoEsquerda(raiz);
+            // Fator de balanceamento menor que -1
+        } else if (raiz.fatorBalanceamento() < -1) {
+            if (raiz.getFilhoEsquerda().fatorBalanceamento() > 0) {
+                // Rotação dupla esquerda-direita
+                // Faço uma rotação a esquerda no filho a esquerda
+                raiz.setFilhoEsquerda(rotacaoEsquerda(raiz.getFilhoEsquerda()));
             }
+            // Rotação simples à direita na raiz
+            raiz = rotacaoDireita(raiz);
         }
 
         return raiz;
@@ -80,27 +98,38 @@ public class ArvoreAVL<T> extends ArvoreBinaria<T> {
         return raiz;
     }
 
+/* Calcula o  fator de balanceamento:
+ * hd(altura da subárvore direita) - he( altura da subárvore esquerda)
+ */
     private int fatorBalanceamento(No<T> no) {
         if (no == null) {
             return 0;
         }
         return altura(no.getFilhoDireita()) - altura(no.getFilhoEsquerda());
     }
-
+    // Realiza a rotação à esquerda em um nó
     private No<T> rotacaoEsquerda(No<T> r) {
+        // Armazena o filho a direita de `r` em `f`
         No<T> f = r.getFilhoDireita();
+        // Substitui o filho a direita de `r` pelo filho a esquerda de `f`
         r.setFilhoDireita(f.getFilhoEsquerda());
+        //  Faz de `r` o filho a esquerda de `f`
         f.setFilhoEsquerda(r);
         return f;
     }
 
+    // Realiza a rotação à direita em um nó
     private No<T> rotacaoDireita(No<T> r) {
+        // Armazena o filho a esquerda de `r` em `f`
         No<T> f = r.getFilhoEsquerda();
+        // Substitui o filho a esquerda de `r` pelo filho a direito de `f`
         r.setFilhoEsquerda(f.getFilhoDireita());
+        //  Faz de `r` o filho a direita de `f`
         f.setFilhoDireita(r);
         return f;
     }
 
+    // Encontra o sucessor de um nó (menor nó na subárvore direita)
     private No<T> encontrarSucessor(No<T> no) {
         while (no.getFilhoEsquerda() != null) {
             no = no.getFilhoEsquerda();
@@ -108,11 +137,12 @@ public class ArvoreAVL<T> extends ArvoreBinaria<T> {
         return no;
     }
 
+    // Retorna a altura da árvore
     @Override
     public int altura() {
         return altura(raiz);
     }
-
+    // Calcula a altura de um nó recursivamente
     private int altura(No<T> no) {
         if (no == null) {
             return 0;
