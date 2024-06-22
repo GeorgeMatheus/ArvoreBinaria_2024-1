@@ -47,66 +47,98 @@ public class ArvoreAVL<T> extends ArvoreBinaria<T> {
         return raiz;
     }
 
+    //Metodo que faz a remoção de um valor simples
     @Override
     public T remover(T valor) {
+        // Chama o método remover recursivo, começando pela raiz da árvore
         No<T> removido = remover(raiz, valor);
+        // Retorna o valor do nó removido se ele foi encontrado, caso contrário retorna null
         return removido != null ? removido.getValor() : null;
     }
 
+    //metodo alternativo para remoção
     private No<T> remover(No<T> raiz, T valor) {
+        // Se a raiz é nula, o valor não está presente na árvore
         if (raiz == null) {
             return null;
         }
 
+        // Compara o valor a ser removido com o valor do nó atual
         int comp = comparador.compare(valor, raiz.getValor());
+
+        // Se o valor é menor, continua a busca no filho esquerdo
         if (comp < 0) {
             raiz.setFilhoEsquerda(remover(raiz.getFilhoEsquerda(), valor));
-        } else if (comp > 0) {
+        }
+        // Se o valor é maior, continua a busca no filho direito
+        else if (comp > 0) {
             raiz.setFilhoDireita(remover(raiz.getFilhoDireita(), valor));
-        } else {
+        }
+        // Se o valor é igual ao valor do nó atual, encontramos o nó a ser removido
+        else {
+            // Caso o nó tenha apenas um filho (ou nenhum)
             if (raiz.getFilhoEsquerda() == null || raiz.getFilhoDireita() == null) {
                 raiz = (raiz.getFilhoEsquerda() != null) ? raiz.getFilhoEsquerda() : raiz.getFilhoDireita();
-            } else {
+            }
+            // Caso o nó tenha dois filhos
+            else {
+                // Encontra o sucessor (menor valor na subárvore direita)
                 No<T> sucessor = encontrarSucessor(raiz.getFilhoDireita());
+                // Substitui o valor do nó pelo valor do sucessor
                 raiz.setValor(sucessor.getValor());
+                // Remove o sucessor da subárvore direita
                 raiz.setFilhoDireita(remover(raiz.getFilhoDireita(), sucessor.getValor()));
             }
         }
 
+        // Após a remoção, balanceia a árvore se a raiz não for nula
         if (raiz != null) {
             raiz = balancear(raiz);
         }
 
+        // Retorna a raiz (possivelmente atualizada) da subárvore
         return raiz;
     }
 
     private No<T> balancear(No<T> raiz) {
+        // Calcula o fator de balanceamento do nó
         int balanceamento = fatorBalanceamento(raiz);
 
+        // Se o nó está desbalanceado para a direita (fator de balanceamento > 1)
         if (balanceamento > 1) {
+            // Se o filho direito está desbalanceado para a esquerda
             if (fatorBalanceamento(raiz.getFilhoDireita()) < 0) {
+                // Realiza uma rotação à direita no filho direito
                 raiz.setFilhoDireita(rotacaoDireita(raiz.getFilhoDireita()));
             }
+            // Realiza uma rotação à esquerda na raiz
             raiz = rotacaoEsquerda(raiz);
-        } else if (balanceamento < -1) {
+        }
+        // Se o nó está desbalanceado para a esquerda (fator de balanceamento < -1)
+        else if (balanceamento < -1) {
+            // Se o filho esquerdo está desbalanceado para a direita
             if (fatorBalanceamento(raiz.getFilhoEsquerda()) > 0) {
+                // Realiza uma rotação à esquerda no filho esquerdo
                 raiz.setFilhoEsquerda(rotacaoEsquerda(raiz.getFilhoEsquerda()));
             }
+            // Realiza uma rotação à direita na raiz
             raiz = rotacaoDireita(raiz);
         }
 
+        // Retorna a raiz (possivelmente atualizada) da subárvore
         return raiz;
     }
 
-/* Calcula o  fator de balanceamento:
- * hd(altura da subárvore direita) - he( altura da subárvore esquerda)
- */
+    /* Calcula o  fator de balanceamento:
+     * hd(altura da subárvore direita) - he( altura da subárvore esquerda)
+     */
     private int fatorBalanceamento(No<T> no) {
         if (no == null) {
             return 0;
         }
         return altura(no.getFilhoDireita()) - altura(no.getFilhoEsquerda());
     }
+
     // Realiza a rotação à esquerda em um nó
     private No<T> rotacaoEsquerda(No<T> r) {
         // Armazena o filho a direita de `r` em `f`

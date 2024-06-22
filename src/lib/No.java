@@ -75,9 +75,6 @@ public class No<T> {
         }else {
             return altD + 1;
         }
-
-        //return Math.max(altE, altD) + 1;
-
     }
 
     // Metodo para calcular o fator de balanceamento do no
