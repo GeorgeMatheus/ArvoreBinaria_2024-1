@@ -21,5 +21,8 @@ Na pasta [app](src/app) se encontram os seguintes arquivos:
 ## Link para relatório da primeira e segunda etapa
 [Relatório da Primeira e Segunda Etapa](https://docs.google.com/document/d/1-KwPDPICSNJaVi8B0pUS5fpFhAM90Xqzathjv-h21VQ/edit?usp=sharing)
 
+## Link para o git da terceira etapa
+[Repositório do App](https://github.com/LorranGabriel/ArvoreBinaria_2024-1_v2)
+
 ## Link para relatório da quarta e quinta etapa
 [Relatório da Quarta e Quinta etapa](https://docs.google.com/document/d/1E49MC33kjOA98NTmZdsp9BIXShoR0cMovfvDSVb_IG4/edit?usp=sharing)
